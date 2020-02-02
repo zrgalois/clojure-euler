@@ -1,0 +1,8 @@
+*.swp
+.scratch
+target
+.nrepl-port
+.lein-repl-history
+# Not yet using Clojure CLI
+.cpcache
+deps.edn
