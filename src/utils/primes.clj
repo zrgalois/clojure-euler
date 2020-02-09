@@ -15,24 +15,26 @@
 ;; [If I really wanted to increase performance, I'd probably use a mutable
 ;;  sorted collection directly, rather than wrapping a persistent tree set
 ;;  in an atom.]
+;; You'll also see a few small optimizations, such as taking 2 as a base case,
+;; not checking even numbers, and avoiding even numbers in our composites list.
 (defn primes-zach
-  ([] (cons 2 (primes-zach 3 (atom (sorted-set [4 2])))))
+  ([] (cons 2 (primes-zach 3 (atom (sorted-set [9 3])))))
   ([n composites]
    (if (= :prime
           (some (fn [[c p :as cp]]
                   (if (= n c) ; Equals known composite --> composite.
                     (do (doto composites  ; Update that known composite,
                           (swap! disj cp) ; since it will never trigger again.
-                          (swap! conj [(+ c p) p]))
+                          (swap! conj [(+ c p p) p]))
                         :composite)
                     (if (< n c) ; Less than composite -> less than all -> prime
-                      (do (swap! composites conj [(* 2 n) n])
+                      (do (swap! composites conj [(* n n) n])
                           :prime)
                       ;; If we are greater than a composite, then it will never
                       ;; trigger again and should be updated.
                       (do (doto composites
                             (swap! disj cp)
-                            (swap! conj [(+ c p) p]))
+                            (swap! conj [(+ c p p) p]))
                           nil))))
                 @composites))
      ;; N cannot be greater than all of our composites and also be prime.
@@ -40,7 +42,7 @@
      ;; By construction, our composites list includes an entry that is at least
      ;; twice that of the previously found prime; Bertrand's hypothesis will
      ;; guarantee that we find another prime in the interval between Pi and 2Pi.
-     ;; Before N can increase beyond 2Pi, we will have found another prime.
+     ;; Before N can increase beyond (Pi)^2, we will have found another prime.
      (lazy-seq (cons n (primes-zach (+ n 2) composites)))
      (primes-zach (+ n 2) composites))))
 
@@ -102,7 +104,7 @@
 
 ;; (This one takes some time;
 ;;  Erasothenes ~ 11.66 minutes
-;;  Mine        ~ 00.72 minutes)
+;;  Mine        ~ 00.24 minutes)
 #_(let [n 100000 ; One hundred thousand
       _ (print "eras:") p1s (time (doall (take n (primes-erasothenes))))
       _ (print "zach:") p2s (time (doall (take n (primes-zach))))]
@@ -110,5 +112,5 @@
 
 ;; The million dollar question:
 #_(time (doall (take 1000000 (primes-zach))))
-;; Takes ~ 11.21 minute to run.
+;; Takes ~ 3.76 minutes to run
 ;; 15,485,863 is the 1,000,000th prime.
