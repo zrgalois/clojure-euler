@@ -1,10 +1,12 @@
 # euler-problems
 
-Z's solutions to Project Euler problems
+Z's solutions to the Project Euler problems, stopping when 100 is reached.
+(Since projecteuler.net asks that solutions beyond 100 not be shared, I plan to respect that.)
 
-Mainly just for fun. Not getting too fancy to start.
-(Will probably go for the straightforward CS solutions
- before breaking out the maths.)
+Going through these problems for fun. Sharing them for the opportunity
+to show off the beauty of Clojure, and to help with training.
+
+(Will probably go for the straightforward CS solutions before breaking out the maths.)
 
 ## License
 
