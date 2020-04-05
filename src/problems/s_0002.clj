@@ -1,4 +1,4 @@
-(ns problems.0002
+(ns problems.s-0002
   (:require [clojure.math.numeric-tower :as m]))
 ;; Sum the even fibonacci numbers <= 4000000
 ;; (Starting with 1 & 2, rather than 1 & 1)

@@ -1,4 +1,4 @@
-(ns problems.0003
+(ns problems.s-0003
   (:require [utils.primes :as primes])) ; where the magic truly happens.
 ;; What is the largest prime factor of the number 600851475143?
 
